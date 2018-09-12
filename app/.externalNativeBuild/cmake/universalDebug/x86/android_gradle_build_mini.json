@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "E:\\002-Sources\\016-MadMagCalibrate\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalDebug\\x86 --target clean"
+  ],
+  "libraries": {
+    "jni_MadMagCalibrate-Debug-x86": {
+      "artifactName": "jni_MadMagCalibrate",
+      "buildCommand": "D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalDebug\\x86 --target jni_MadMagCalibrate",
+      "abi": "x86",
+      "output": "E:\\002-Sources\\016-MadMagCalibrate\\app\\build\\intermediates\\cmake\\universal\\debug\\obj\\x86\\libjni_MadMagCalibrate.so"
+    }
+  }
+}

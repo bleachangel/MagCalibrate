@@ -1,0 +1,44 @@
+
+{
+	"buildFiles" : [ "E:/002-Sources/016-MadMagCalibrate/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalDebug\\armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"jni_MadMagCalibrate-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "jni_MadMagCalibrate",
+			"buildCommand" : "D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalDebug\\armeabi-v7a --target jni_MadMagCalibrate",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=D:/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/Android/Sdk/ndk-bundle/sysroot  -Djni_MadMagCalibrate_EXPORTS -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\android\\support\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/Android/Sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=19 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "E:/002-Sources/016-MadMagCalibrate/app/src/main/jni/Calibration.cpp",
+					"workingDirectory" : "E:/002-Sources/016-MadMagCalibrate/app/.externalNativeBuild/cmake/universalDebug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=D:/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/Android/Sdk/ndk-bundle/sysroot  -Djni_MadMagCalibrate_EXPORTS -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\android\\support\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/Android/Sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=19 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "E:/002-Sources/016-MadMagCalibrate/app/src/main/jni/MadMagCalibrate.cpp",
+					"workingDirectory" : "E:/002-Sources/016-MadMagCalibrate/app/.externalNativeBuild/cmake/universalDebug/armeabi-v7a"
+				}
+			],
+			"output" : "E:/002-Sources/016-MadMagCalibrate/app/build/intermediates/cmake/universal/debug/obj/armeabi-v7a/libjni_MadMagCalibrate.so",
+			"toolchain" : "2573999169"
+		}
+	},
+	"toolchains" : 
+	{
+		"2573999169" : 
+		{
+			"cCompilerExecutable" : "D:/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

@@ -1,0 +1,44 @@
+
+{
+	"buildFiles" : [ "E:/002-Sources/016-MadMagCalibrate/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalRelease\\x86 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"jni_MadMagCalibrate-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "jni_MadMagCalibrate",
+			"buildCommand" : "D:\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\002-Sources\\016-MadMagCalibrate\\app\\.externalNativeBuild\\cmake\\universalRelease\\x86 --target jni_MadMagCalibrate",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=i686-none-linux-android --gcc-toolchain=D:/Android/Sdk/ndk-bundle/toolchains/x86-4.9/prebuilt/windows-x86_64 --sysroot=D:/Android/Sdk/ndk-bundle/sysroot  -Djni_MadMagCalibrate_EXPORTS -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\android\\support\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/Android/Sdk/ndk-bundle/sysroot/usr/include/i686-linux-android -D__ANDROID_API__=19 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -O2 -DNDEBUG  -fPIC    -c ",
+					"src" : "E:/002-Sources/016-MadMagCalibrate/app/src/main/jni/Calibration.cpp",
+					"workingDirectory" : "E:/002-Sources/016-MadMagCalibrate/app/.externalNativeBuild/cmake/universalRelease/x86"
+				},
+				
+				{
+					"flags" : "  --target=i686-none-linux-android --gcc-toolchain=D:/Android/Sdk/ndk-bundle/toolchains/x86-4.9/prebuilt/windows-x86_64 --sysroot=D:/Android/Sdk/ndk-bundle/sysroot  -Djni_MadMagCalibrate_EXPORTS -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\android\\support\\include -isystem D:\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/Android/Sdk/ndk-bundle/sysroot/usr/include/i686-linux-android -D__ANDROID_API__=19 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -O2 -DNDEBUG  -fPIC    -c ",
+					"src" : "E:/002-Sources/016-MadMagCalibrate/app/src/main/jni/MadMagCalibrate.cpp",
+					"workingDirectory" : "E:/002-Sources/016-MadMagCalibrate/app/.externalNativeBuild/cmake/universalRelease/x86"
+				}
+			],
+			"output" : "E:/002-Sources/016-MadMagCalibrate/app/build/intermediates/cmake/universal/release/obj/x86/libjni_MadMagCalibrate.so",
+			"toolchain" : "2573999169"
+		}
+	},
+	"toolchains" : 
+	{
+		"2573999169" : 
+		{
+			"cCompilerExecutable" : "D:/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MadMagCalibrate</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="cali_hint">请您远离磁场干扰源，并按图示完成指南针校准</string>
+    <string name="cali_start">开始</string>
+    <string name="cali_next">下一步</string>
+    <string name="cali_stop">结束</string>
+
+</resources>
