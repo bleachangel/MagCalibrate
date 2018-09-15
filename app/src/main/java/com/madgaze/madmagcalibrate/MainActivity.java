@@ -43,32 +43,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
 	public List<sample> samples = new ArrayList<sample>();//用于记录采样点的值
-
-	public static final int MAX_COORDINATE = 5;
-	public List<sample> mag = new ArrayList<sample>();//用于计算单个点的均值
-	private int mRecordStatus;
-	public static final int RECORD_STARTED = 0;
-	public static final int  RECORD_STOPPED = 1;
-    public static final int MAX_SAMPLE_COUNT = 13;
 	public native boolean addSample(double x, double y, double z);
 	public native double[] getParams(double radius);
-
-    Handler mHandler = new Handler();
-    Runnable r = new Runnable() {
-
-        @Override
-        public void run() {
-            //do something
-            //每隔1s循环执行run方法
-            synchronized (MainActivity.this) {
-                mRecordStatus = RECORD_STARTED;
-                if (mStartFlag == RECORDING) {
-                    mHandler.postDelayed(this, 1000);
-                }
-            }
-        }
-    };
-
+    public native boolean setBias(double[] bias);
 	private void initSensorService() {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -79,7 +56,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mStartFlag = INIT;
-		mRecordStatus = RECORD_STOPPED;
         mTextViewParams = (TextView)findViewById(R.id.textViewParams);
         mCaliStart = (Button)findViewById(R.id.cali_start);
         mCaliStart.setText(R.string.cali_start);
@@ -91,8 +67,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                 synchronized (MainActivity.this) {
                     if (mStartFlag == INIT) {
                         mStartFlag = RECORDING;
-                        mRecordStatus = RECORD_STARTED;
-                        mHandler.postDelayed(r, 100);//延时100毫秒
                         samples.clear();
 
                         mCaliStart.setEnabled(false);
@@ -109,11 +83,11 @@ public class MainActivity extends Activity implements SensorEventListener {
                             sample s;
                             s = samples.get(i);
                             addSample(s.m_x, s.m_y, s.m_z);
-                            //Log.d(TAG, "mag: ("+s.m_x+"," + s.m_y + "," + s.m_z +")");
                         }
 
                         double[] params = getParams(13.0);
                         if (params != null) {
+                            setBias(params);
                             mTextViewParams.setText("param : (" + params[0] + "," + params[1] + "," + params[2] + "," + params[3] + "," + params[4] + "," + params[5] + ")");
                             Log.d(TAG, "param : (" + params[0] + "," + params[1] + "," + params[2] + ","
                                     + params[3] + "," + params[4] + "," + params[5] + ")");
@@ -122,6 +96,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                         mCaliStart.setText(R.string.cali_start);
                         mCaliStart.setEnabled(true);
                         mStartFlag = INIT;
+
                         Toast.makeText(MainActivity.this, "vector size :" + size, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -174,18 +149,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onSensorChanged(SensorEvent event) {
 		// TODO Auto-generated method stub
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            //mMagneticFieldValues = event.values;
-            //addSample(mMagneticFieldValues[0],mMagneticFieldValues[1],mMagneticFieldValues[2]);
             synchronized (MainActivity.this) {
-                if(mStartFlag == RECORDING && mRecordStatus == RECORD_STARTED) {
-                    mRecordStatus = RECORD_STOPPED;
+                if(mStartFlag == RECORDING) {
                     sample cord = new sample();
                     cord.m_x = event.values[0];
                     cord.m_y = event.values[1];
                     cord.m_z = event.values[2];
 
-					//String coordinateTxt = "X: " + cord.m_x + ", Y: " + cord.m_y + ", Z: " + cord.m_z;
-					//mTextViewParams.setText(coordinateTxt);
 					samples.add(cord);
 				}
 			}

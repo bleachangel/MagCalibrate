@@ -7,6 +7,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#undef com_madgaze_madmagcalibrate_MainActivity_INIT
+#define com_madgaze_madmagcalibrate_MainActivity_INIT 0L
+#undef com_madgaze_madmagcalibrate_MainActivity_RECORDING
+#define com_madgaze_madmagcalibrate_MainActivity_RECORDING 1L
+#undef com_madgaze_madmagcalibrate_MainActivity_STOPPED
+#define com_madgaze_madmagcalibrate_MainActivity_STOPPED 2L
 /*
  * Class:     com_madgaze_madmagcalibrate_MainActivity
  * Method:    addSample
@@ -22,6 +28,14 @@ JNIEXPORT jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_addSamp
  */
 JNIEXPORT jdoubleArray JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_getParams
   (JNIEnv *, jobject, jdouble);
+
+/*
+ * Class:     com_madgaze_madmagcalibrate_MainActivity
+ * Method:    setBias
+ * Signature: ([D)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_setBias
+  (JNIEnv *, jobject, jdoubleArray);
 
 #ifdef __cplusplus
 }

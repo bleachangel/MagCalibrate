@@ -57,6 +57,14 @@ bool addSample(double x, double y, double z);
 //bool Calc_Process(double radius, params &p);
 bool Calc_Process(double radius, double p[6]);
 
+/**
+* 功能：椭圆拟合校准算法模块
+* 输出参数：
+*		p--算法根据采集的数据，计算出校准参数，参考params的说明
+* 返回值：
+		成功计算出校准参数返回true，否则返回false
+*/
+int ellipsoid_fitting(double p[6]);
 #ifdef __cplusplus
 }
 #endif
