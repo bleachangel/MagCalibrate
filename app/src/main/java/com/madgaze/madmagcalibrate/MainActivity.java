@@ -4,12 +4,18 @@ import java.util.List;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,11 +47,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 	static {
         System.loadLibrary("jni_MadMagCalibrate");
     }
-
+    private IMagCalibrate messageCenter = null;
+    private boolean mBound = false;
 	public List<sample> samples = new ArrayList<sample>();//用于记录采样点的值
 	public native boolean addSample(double x, double y, double z);
 	public native double[] getParams(double radius);
-    public native boolean setBias(double[] bias);
+    //public native boolean setBias(double[] bias);
 	private void initSensorService() {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -87,7 +94,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                         double[] params = getParams(13.0);
                         if (params != null) {
-                            setBias(params);
+                            if (messageCenter != null) {
+                                try {
+                                    messageCenter.setBias(params[0], params[1], params[2], params[3], params[4], params[5]);
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             mTextViewParams.setText("param : (" + params[0] + "," + params[1] + "," + params[2] + "," + params[3] + "," + params[4] + "," + params[5] + ")");
                             Log.d(TAG, "param : (" + params[0] + "," + params[1] + "," + params[2] + ","
                                     + params[3] + "," + params[4] + "," + params[5] + ")");
@@ -131,7 +144,15 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onResume();
         mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
     }
-    
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mBound) {
+            attemptToBindService();
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -139,7 +160,16 @@ public class MainActivity extends Activity implements SensorEventListener {
             mSensorManager.unregisterListener(this);
         }
     }
-    
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBound) {
+            unbindService(mServiceConnection);
+            mBound = false;
+        }
+    }
+
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		// TODO Auto-generated method stub
@@ -161,4 +191,40 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
         } 
 	}
+
+    /**
+     * 尝试与服务端建立连接
+     */
+    private void attemptToBindService() {
+        Intent intent = new Intent();
+        //intent.setAction("com.vvvv.aidl");
+        //intent.setPackage("com.iiiv.aidlserver");
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.e(getLocalClassName(), "service connected");
+            messageCenter = IMagCalibrate.Stub.asInterface(service);
+            mBound = true;
+
+            if (messageCenter != null) {
+                try {
+                    double[] p = messageCenter.getBias();
+                    Log.e(getLocalClassName(), "bias = ("+p[0]+","+p[1]+","+p[2]+"),scaler =("+p[3]+","+p[4]+","+p[5]+")");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.e(getLocalClassName(), "service disconnected");
+            mBound = false;
+        }
+    };
+
 }
