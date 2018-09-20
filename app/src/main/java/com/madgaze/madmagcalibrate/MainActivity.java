@@ -1,20 +1,20 @@
 package com.madgaze.madmagcalibrate;
 
 import java.util.List;
-import java.util.Vector;
+//import java.util.Vector;
 
 import android.app.Activity;
-import android.content.ComponentName;
+//import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+//import android.content.Intent;
+//import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
+//import android.os.Handler;
+//import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import android.app.MagCalibrateManager;
 
 public class MainActivity extends Activity implements SensorEventListener {
 	public static final String TAG = "MagActivity";
@@ -47,17 +48,23 @@ public class MainActivity extends Activity implements SensorEventListener {
 	static {
         System.loadLibrary("jni_MadMagCalibrate");
     }
-    private IMagCalibrate messageCenter = null;
+    //private IMagCalibrate messageCenter = null;
     private boolean mBound = false;
 	public List<sample> samples = new ArrayList<sample>();//用于记录采样点的值
 	public native boolean addSample(double x, double y, double z);
 	public native double[] getParams(double radius);
     //public native boolean setBias(double[] bias);
+    private MagCalibrateManager calibrateManager;
+
 	private void initSensorService() {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
-	
+
+    public boolean setBias(double[] bias){
+        calibrateManager.setBias(bias[0],bias[1],bias[2],bias[3],bias[4],bias[5]);
+	    return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,13 +101,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                         double[] params = getParams(13.0);
                         if (params != null) {
-                            if (messageCenter != null) {
-                                try {
-                                    messageCenter.setBias(params[0], params[1], params[2], params[3], params[4], params[5]);
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                            setBias(params);
                             mTextViewParams.setText("param : (" + params[0] + "," + params[1] + "," + params[2] + "," + params[3] + "," + params[4] + "," + params[5] + ")");
                             Log.d(TAG, "param : (" + params[0] + "," + params[1] + "," + params[2] + ","
                                     + params[3] + "," + params[4] + "," + params[5] + ")");
@@ -116,6 +117,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
         	
         });
+        try {
+            calibrateManager = (MagCalibrateManager)getSystemService("mag_calibrate");
+            calibrateManager.resetBias();
+        } catch(RuntimeException e) {
+            Log.d(TAG,"RuntimeException happend .....e is :"+e.toString());
+        }
 
         initSensorService();
     }
@@ -146,18 +153,18 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (!mBound) {
-            attemptToBindService();
-        }
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         if (mSensorManager != null) {
             mSensorManager.unregisterListener(this);
+        }
+    }
+/**
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mBound) {
+            attemptToBindService();
         }
     }
 
@@ -169,7 +176,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             mBound = false;
         }
     }
-
+*/
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		// TODO Auto-generated method stub
@@ -195,13 +202,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     /**
      * 尝试与服务端建立连接
      */
+    /*
     private void attemptToBindService() {
         Intent intent = new Intent();
         //intent.setAction("com.vvvv.aidl");
         //intent.setPackage("com.iiiv.aidlserver");
         bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
-
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -225,6 +232,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             Log.e(getLocalClassName(), "service disconnected");
             mBound = false;
         }
-    };
+    };*/
 
 }

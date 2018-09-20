@@ -34,8 +34,8 @@ JNIEXPORT jdoubleArray JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_get
  * Method:    setBias
  * Signature: ([D)Z
  */
-JNIEXPORT jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_setBias
-  (JNIEnv *, jobject, jdoubleArray);
+/*JNIEXPORT jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_setBias
+  (JNIEnv *, jobject, jdoubleArray);*/
 
 #ifdef __cplusplus
 }

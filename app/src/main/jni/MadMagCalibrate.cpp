@@ -41,7 +41,7 @@ jdoubleArray JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_getParams
 	LOGD("fail to calc param!");
 	return NULL;
 }
-
+/*
 jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_setBias
         (JNIEnv * env, jobject obj, jdoubleArray bias)
 {
@@ -70,4 +70,4 @@ jboolean JNICALL Java_com_madgaze_madmagcalibrate_MainActivity_setBias
     close(fd);
     env->ReleaseDoubleArrayElements(bias, pbias,0);
     return true;
-}
+}*/
