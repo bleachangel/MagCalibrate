@@ -8,6 +8,8 @@ android {
         applicationId "com.madgaze.madmagcalibrate"
         minSdkVersion 24
         targetSdkVersion 24
+        versionCode 1000000
+        versionName "1.0.0"
     }
 
     sourceSets {
@@ -48,6 +50,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    applicationVariants.all { variant ->
+        def isRelease = variant.buildType.name.equalsIgnoreCase('release')
+        if (isRelease) {
+            variant.outputs.all { output ->
+                def releaseApkName = "MadMagCalibrate-v${defaultConfig.versionName}-" + variant.flavorName.replace('_', '') + "-${getBuildTime()}" + '.apk'
+                outputFileName = releaseApkName
+            }
+        } else {
+            variant.outputs.all { output ->
+                def debugApkName = "MadMagCalibrate-v${defaultConfig.versionName}-" + variant.flavorName.replace('_', '') + '-debug.apk'
+                outputFileName = debugApkName
+            }
+        }
+    }
+}
+
+def getBuildTime() {
+    new Date().format("yyyy-MM-dd_HH-mm-ss", TimeZone.getTimeZone("GMT+8:00"))
 }
 
 dependencies {
