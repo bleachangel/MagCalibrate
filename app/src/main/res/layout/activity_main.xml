@@ -20,8 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="76dp"
+        android:layout_marginStart="275dp"
         android:text="@string/cali_start" />
 
     <TextView
@@ -31,5 +32,16 @@
         android:layout_above="@+id/cali_start"
         android:layout_marginBottom="64dp"
         android:textSize="@dimen/cali_font_size" />
+
+    <Button
+        android:id="@+id/cali_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cali_start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="76dp"
+        android:layout_marginStart="400dp"
+        android:text="@string/cali_reset" />
 
 </RelativeLayout>

@@ -8,5 +8,6 @@
     <string name="cali_start">开始</string>
     <string name="cali_next">下一步</string>
     <string name="cali_stop">结束</string>
+    <string name="cali_reset">重置</string>
 
 </resources>

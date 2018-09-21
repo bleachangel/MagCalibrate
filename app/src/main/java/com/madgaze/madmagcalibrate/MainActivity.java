@@ -33,6 +33,7 @@ import android.app.MagCalibrateManager;
 public class MainActivity extends Activity implements SensorEventListener {
 	public static final String TAG = "MagActivity";
 	private Button mCaliStart;
+    private Button mCaliReset;
 	private TextView mTextViewParams;
 	
 	private SensorManager mSensorManager;
@@ -132,6 +133,24 @@ public class MainActivity extends Activity implements SensorEventListener {
         	
         });
 
+        mCaliReset = (Button)findViewById(R.id.cali_reset);
+        mCaliReset.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                synchronized (MainActivity.this) {
+                    if (mStartFlag == RECORDING) {
+                        mCaliReset.setEnabled(false);
+                    } else {
+                        mCaliReset.setEnabled(true);
+                        calibrateManager.resetBias();
+                        Toast.makeText(MainActivity.this, "reset magnetic calibrate successfull!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+        });
        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 判断是否有WRITE_SETTINGS权限
             if (!Settings.System.canWrite(this)) {
