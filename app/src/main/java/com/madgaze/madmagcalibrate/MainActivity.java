@@ -8,14 +8,18 @@ import android.app.Activity;
 import android.content.Context;
 //import android.content.Intent;
 //import android.content.ServiceConnection;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 //import android.os.Handler;
 //import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,10 +59,20 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public native double[] getParams(double radius);
     //public native boolean setBias(double[] bias);
     private MagCalibrateManager calibrateManager;
+    private static final int REQUEST_CODE_WRITE_SETTINGS = 1;
 
 	private void initSensorService() {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+    }
+
+    private void resetCalibrate() {
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_BIAS_X,0);
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_BIAS_Y,0);
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_BIAS_Z,0);
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_SCALER_X,1);
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_SCALER_Y,1);
+        Settings.Global.putInt(this.getContentResolver(), Settings.Global.MAG_CALIBRATE_SCALER_Z,1);
     }
 
     public boolean setBias(double[] bias){
@@ -117,6 +131,17 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
         	
         });
+
+       /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 判断是否有WRITE_SETTINGS权限
+            if (!Settings.System.canWrite(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, REQUEST_CODE_WRITE_SETTINGS);
+            }
+
+        }*/
+
         try {
             calibrateManager = (MagCalibrateManager)getSystemService("mag_calibrate");
             calibrateManager.resetBias();
@@ -132,6 +157,16 @@ public class MainActivity extends Activity implements SensorEventListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_WRITE_SETTINGS) {
+            if (Settings.System.canWrite(this)) {
+                Log.i(TAG, "onActivityResult write settings granted" );
+            }
+        }
     }
 
     @Override
@@ -233,5 +268,4 @@ public class MainActivity extends Activity implements SensorEventListener {
             mBound = false;
         }
     };*/
-
 }
